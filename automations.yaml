@@ -1,0 +1,26 @@
+- id: `daily_briefing
+  alias: BRIEFING - Daily Briefing
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_button.daily_briefing
+  condition: []
+  action:
+  - service: script.announce_time
+    data: {}
+  - service: script.announce_weather_details
+    data: {}
+  - service: script.announce_inside_temperatures
+    data: {}
+  - service: script.announce_internal_temperatures
+    data: {}
+  - service: script.announce_dad_joke
+    data: {}
+  - service: script.announce_random_fact
+    data: {}
+  - service: script.announce_dad_joke_of_the_day
+    data: {}
+  - service: script.announce_end_of_briefing
+    data: {}
+  mode: single
