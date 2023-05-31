@@ -1,13 +1,14 @@
 # Home Assistant Jinja Templating to anmnounce Wind Details
 
 ## get the current wind speed and wind bearing in degrees from Home Assistant
-```
+```jinja
 {% set wind_bearing = state_attr('weather.home', 'wind_bearing') | float %}
 {% set wind_speed = state_attr('weather.home','wind_speed') | float %}
 ```
 
-## This array is a list of Cardinal Directions allowing us to convert the 
-```
+## This array is a list of Cardinal Directions allowing us to convert the bearing into one of them. 
+### Admittedly, This is more complicated than it needs to be. 
+```jinja
 {% set directions = {
     (0.0, 11.25): 'North',
     (11.25, 33.75): 'North North East',
@@ -30,7 +31,7 @@
 ```
 
 ## Announce a qualitative description of wind speed
-```
+```jinja
 {% if wind_speed > 50 %}
   Its very windy outside.
 {% elif 40 < wind_speed < 50 %}
@@ -46,8 +47,9 @@
 {% endif %}
 ```
 
-###
-```
+
+### Announce the Cardinal Direction and Wind Speed
+```jinja
 {% for rng, direction in directions.items() %}
   {% if wind_bearing >= rng[0] and wind_bearing < rng[1] %}
     The wind is currently blowing from the {{ direction }} direction, at {{ wind_speed }} kilometres per hour
