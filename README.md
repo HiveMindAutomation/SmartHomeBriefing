@@ -19,12 +19,6 @@ Reference materials are available at:
 [Dad Joke, Quote and Random Fact](./fun.md)  
 [Pending Updates](./pending%20updates.md)  
 
-
-
-
-
-
-
 ## Script Contents
 The Basis of each Script in Home Assistant is:
 ```
@@ -43,3 +37,9 @@ data:
 ```
 Where we'll then swap out `<YOUR TEMPLATED MESSAGE HERE>` for what we want to actually say.
 In this case, I'm using the Alexa Media ACS add-on, but you could reasonably use this with Google home, or ANY text to speech engine from Home Assistant, including 
+
+## TO-DO's
+
+- Turn multi-value outputs into an array of dictionaries/tuples and run through the template in a for loop.
+    - i.e. Indoor Temperatures & pending updates. 
+- 

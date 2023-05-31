@@ -105,6 +105,8 @@ sensor:
 
 ## Announcing Jokes, facts, and quotes
 
+
+### Starting with the Quote
 So for the quote, I want to know the "Category" of quote.  
 There's a list of categories in the [API Documentation](https://api-ninjas.com/api/quotes).  
 Expect results like:
@@ -125,13 +127,28 @@ And lastly, obviously, the quote:
 ```
 They said. {{ states('sensor.quote_sensor') }}
 ```
-
+Put altogether, it looks like this.
 ```
 The {{ state_attr( 'sensor.quote_sensor', 'category' ) }} Quote of the day is by {{ state_attr( 'sensor.quote_sensor', 'author' ) }}. 
 They said. {{ states('sensor.quote_sensor') }}
 ```
 
+### Now for a Dad Joke
 
+This one is easy. We only need the state of the sensor entity we created:
+
+```
+Here is a Dad Joke.. {{ states('sensor.dad_joke_of_the_hour') }}
+```
+The double stop in the template here adds an additional slight pause to the end of "Here is a Dad Joke". It just seemed to flow better out of the Text To Speech that way
+
+### Lastly, our Random Fact
+
+Again, very simple, only needing to read the State of our Random Fact Entity.
+```
+And a random fact.. {{ states('sensor.random_fact') }}
+```
+Again, the double stop seemed to make the timeing better.
 
 ### Put All Together
 ```

@@ -4,25 +4,25 @@
 
 ### Get the current Temperature from Home Assistant
 We're casting this as a float, probably no need, but I'd rather be safe.
-```
+```jinja
 {% set current_temp = state_attr ('weather.home','temperature') | float %}
 ```
 
 ### Get the current weather condition from Home Assistant as well
-```
+```jinja
 {% set current_condition = states('weather.home') %}
 ```
 ### Fix the current Condition
 When the Current weather condition is "Partly Cloudy" the default weather integration returns `partlycloudy` and it sounds odd when read out by a Text to Speech engine.  
 To fix it I added:
-```
+```jinja
 {% if current_condition == 'partlycloudy' %}
   {% set current_condition = 'Partly Cloudy' %}
 {% endif %}
 ```
 
 ## Announce the current condition and Temperature 
-```
+```jinja
 Outside, It's {{ current_condition }} and {{ current_temp }} degrees Celsius.
 ```
 
@@ -30,14 +30,14 @@ Outside, It's {{ current_condition }} and {{ current_temp }} degrees Celsius.
 For weather information, I want to know the High and Low temp. This data is strangely not included by default in the default weather integration, so we have to figure it out ourselves.
 
 ### Start by Extracting the `forecast` array data into a variable
-```
+```jinja
 {% set weather = state_attr('weather.home', 'forecast') %}
 ```
 
 ### Instantiate a `high_temp` and `low_temp` variable
 We're assigning the temperature from the 0th record in the array to get started.
 
-```
+```jinja
 {% set high_temp = weather[0].temperature %}
 {% set low_temp = weather[0].templow %}
 ```
@@ -46,7 +46,7 @@ We're assigning the temperature from the 0th record in the array to get started.
 I've also added an `if` statement in here to announce if any of the forecast conditions are `rainy` and the `hour` that the rain is forecast for and to tell us to take an umbrella.
 I've surrounded that code block with `###########` for clarity
 
-```
+```jinja
 {% for entry in weather %}
   {% if entry.temperature > high_temp %}
     {% set high_temp = entry.temperature %}
@@ -79,7 +79,7 @@ Change them as you need to
 else: the `high_temp` variable must be < 0°C  
 `< 0°C` say "It's going to be freezing today"
 
-```
+```jinja
 {% if high_temp > 30 %}
   It's going to be a hot one
 {% elif 20 < high_temp < 30 %}
@@ -98,7 +98,7 @@ else: the `high_temp` variable must be < 0°C
 ### Announce the `high_temp` and `low_temp` values
 Again, built for °C
 
-```
+```jinja
 The forecast high is {{ high_temp }} °C.
 With a Low of {{ low_temp }} °C .
 ```
@@ -116,7 +116,7 @@ Remember these are for the `low_temp` variable, so it's not going to get colder 
 
 Puntuation like `.`, `!`, `?` and `,` is important in the text to speech statments so the timing sounds "natural"
 
-```
+```jinja
 {% if low_temp > 30 %}
   Wow. That's hot!
 {% elif 20 < low_temp < 30 %}
@@ -131,7 +131,7 @@ Puntuation like `.`, `!`, `?` and `,` is important in the text to speech statmen
 ```
 
 ## Now we can put it all together:
-```
+```jinja
 {% set current_temp = state_attr ('weather.home','temperature') | float %}
 {% set current_condition = states('weather.home') %}
 

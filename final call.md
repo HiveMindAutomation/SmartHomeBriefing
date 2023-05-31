@@ -1,6 +1,6 @@
 __Service Call__:
 
-```
+```yaml
 service: notify.alexa_media_office_echo_dot
 data:
   message: "
