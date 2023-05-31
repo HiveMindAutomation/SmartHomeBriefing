@@ -1,15 +1,12 @@
 # Jinja template for Home Assistant for Time
 
-## get Current Time from Home Assistant
+## Get Current Time from Home Assistant
 ```jinja
 {% set current_time = states('sensor.time') %}
 ```
-### extract the current hour
+### Extract the current hour and minute into seperate variables
 ```jinja
 {% set hour = current_time.split(':')[0] | int %}
-```
-### and Minute
-```jinja
 {% set minute = current_time.split(':')[1] %}
 ```
 
@@ -41,9 +38,8 @@ It's currently {{ hour_12 }}:{{ minute }} {{ suffix }}.
 ```jinja
 # get Current Time from Home Assistant
 {% set current_time = states('sensor.time') %}
-# Split time into hour
+# Split time into hour and minute
 {% set hour = current_time.split(':')[0] | int %}
-# and Minute
 {% set minute = current_time.split(':')[1] %}
 
 # Say a time appropriate greeting
