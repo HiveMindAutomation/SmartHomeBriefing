@@ -1,7 +1,10 @@
 # Home Assistant Jinja 2 Templating to announce some inside Temperatures
 
+[Back to README](./README.md)  
+
 
 This process is fairly simple. We don't need to iterate over arrays or anything like that unless we want to get complicated.
+
 
 For my use case and for the YouTube Video, I chose to read out the temperatures in 4 rooms:
 This table shows the rooms and the sensor ID's I chose, your smart home will differ.
@@ -22,3 +25,6 @@ Inside it's currently {{ states('sensor.temperature_dining') }} °C in the Dinin
 {{ states('sensor.temperature_office')}} °C in the office,
 and {{ states('sensor.master_bedroom_purifier_temperature') }} °C in the Master Bedroom.
 ```
+
+## TO-DO
+After setting this up, I've realised the better way to handle this would be to create an Array of dictionaries containing the Room Name, and the temperatures, then iterating through the array for the announcement.

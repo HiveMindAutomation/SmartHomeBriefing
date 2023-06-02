@@ -1,5 +1,7 @@
 # Home Assistant Jinja Templating to anmnounce Wind Details
 
+[Back to README](./README.md)  
+
 ## get the current wind speed and wind bearing in degrees from Home Assistant
 ```jinja
 {% set wind_bearing = state_attr('weather.home', 'wind_bearing') | float %}

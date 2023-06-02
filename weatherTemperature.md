@@ -1,5 +1,8 @@
 # Home Assistant Jinja 2 Templates for Weather Temperatures
 
+[Back to README](./README.md)  
+
+
 ## Step-by-step
 
 ### Get the current Temperature from Home Assistant

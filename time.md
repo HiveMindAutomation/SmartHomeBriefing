@@ -1,5 +1,8 @@
 # Jinja template for Home Assistant for Time
 
+[Back to README](./README.md)  
+
+
 ## Get Current Time from Home Assistant
 ```jinja
 {% set current_time = states('sensor.time') %}

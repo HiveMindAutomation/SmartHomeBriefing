@@ -1,5 +1,7 @@
 # Home Assistant Pending Updates Announcement
 
+[Back to README](./README.md)  
+
 I also wanted The Briefing to announce if there's any pending Home Assistant updates to be installed, but I want to limit it down to only the Home Assistant Core, Home Assistant OS, and ESPHome.
 
 ![Home Assistant OS Pending Update](pendingUpdate.png)
