@@ -38,35 +38,54 @@ For weather information, I want to know the High and Low temp. This data is stra
 ```
 
 ### Instantiate a `high_temp` and `low_temp` variable
-We're assigning the temperature from the 0th record in the array to get started.
+
+The weather entity stores forecast data in the forecast attribute as an array of forecasts.
+The forecast array looks a little like this.
+Now it's only in this writeup that I've made the realisation that I got some fundamental concepts in my video wrong.
+Each item in the "forecast" array is actually for a "Day" not an hour..... OOPS!.
+
+```yaml
+forecast: 
+- condition: partlycloudy
+  datetime: '2023-06-05T02:00:00+00:00'
+  wind_bearing: 118.2
+  temperature: 17.7
+  templow: 8.5
+  wind_speed: 18.4
+  precipitation: 2.7
+- condition: partlycloudy
+  datetime: '2023-06-06T02:00:00+00:00'
+  wind_bearing: 14.2
+  temperature: 17.8
+  templow: 11.8
+  wind_speed: 21.2
+  precipitation: 0.1
+- condition: rainy
+  datetime: '2023-06-07T02:00:00+00:00'
+  wind_bearing: 20.6
+  temperature: 17.3
+  templow: 12.7
+  wind_speed: 18.7
+  precipitation: 23.9
+- condition: partlycloudy
+  datetime: '2023-06-08T02:00:00+00:00'
+  wind_bearing: 277.1
+  temperature: 14.6
+  templow: 10.3
+  wind_speed: 15.8
+  precipitation: 0.6
+- condition: partlycloudy
+  datetime: '2023-06-09T02:00:00+00:00'
+  wind_bearing: 281.9
+  temperature: 13.8
+  templow: 10.4
+  wind_speed: 20.2
+  precipitation: 0.4
+```
 
 ```jinja
 {% set high_temp = weather[0].temperature %}
 {% set low_temp = weather[0].templow %}
-```
-
-### Iterate through the array and set the `high_temp` or `low_temp` variables accordingly.
-I've also added an `if` statement in here to announce if any of the forecast conditions are `rainy` and the `hour` that the rain is forecast for and to tell us to take an umbrella.
-I've surrounded that code block with `###########` for clarity
-
-```jinja
-{% for entry in weather %}
-  {% if entry.temperature > high_temp %}
-    {% set high_temp = entry.temperature %}
-  {% endif %}
-  {% if entry.templow < low_temp %}
-    {% set low_temp = entry.templow %}
-  {% endif %}
-
-  ###########
-  # While we're here, if the condition for this hour is `rainy` let's announce that
-  {% if entry.condition == 'rainy'%}    
-    It looks like there's rain expected at around {{ entry.datetime.split('T')[1][:2] }} o'clock. 
-    You might want to take an umbrella if you're leaving the house.
-  {% endif %}
-  ###########
-
-{% endfor %}
 ```
 
 ### Some Qualitative statements about the `high_temp`
@@ -74,27 +93,26 @@ This code block looks at the `high_temp` variable and runs the if statement belo
 These have been built for °C and I pulled the qualitative statements out of my head.
 Change them as you need to
 
-`Above 30°C` say "It's going to be a hot one"  
-`between 20°C and 30°C` say "It should be a warm day"  
-`between 15°C and 20°C` say "It's going to be a pretty mild temperature today"  
-`between 10°C and 15°C` say "It seems like it'll be a bit chilly today"  
-`between 0°C and 10°C` say "It's going to be a cold day"  
-else: the `high_temp` variable must be < 0°C  
-`< 0°C` say "It's going to be freezing today"
+- `Above 30°C` say "It's going to be a hot one tomorrow"
+- `between 20°C and 30°C` say "It should be a warm day tomorrow"
+- `between 15°C and 20°C` say "It's going to be a pretty mild temperature tomorrow"
+- `between 10°C and 15°C` say "It seems like it'll be a bit chilly tomorrow"
+- `between 0°C and 10°C` say "It's going to be a cold day tomorrow"
+- `< 0°C` say "It's going to be freezing tomorrow"
 
 ```jinja
 {% if high_temp > 30 %}
-  It's going to be a hot one
+  It's going to be a hot one tomorrow
 {% elif 20 < high_temp < 30 %}
-  It should be a warm day
+  It should be a warm day tomorrow
 {% elif 15 < high_temp < 20 %}
-  It's going to be a pretty mild temperature today
+  It's going to be a pretty mild temperature tomorrow
 {% elif 10 < high_temp < 15 %}
-  It seems like it'll be a bit chilly today
+  It seems like it'll be a bit chilly tomorrow
 {% elif 0 < high_temp < 10 %}
-  It's going to be a cold day
+  It's going to be a cold day tomorrow
 {% else %}
-  It's going to be freezing today
+  It's going to be freezing tomorrow
 {% endif %}
 ```
 
@@ -102,8 +120,8 @@ else: the `high_temp` variable must be < 0°C
 Again, built for °C
 
 ```jinja
-The forecast high is {{ high_temp }} °C.
-With a Low of {{ low_temp }} °C .
+The forecast high for tomorrow is {{ high_temp }} °C.
+{{ forecast_condition }} With a Low of {{ low_temp }} °C .
 ```
 
 ### Some qualitative statements about the `low_temp`
@@ -111,11 +129,11 @@ Again we're looking at °C and the statements and ranges are arbitrary, and can 
 
 Remember these are for the `low_temp` variable, so it's not going to get colder than these  
 
-`Above 30°C` say "Wow. That's hot!"  
-`between 20°C and 30°C` say "it's not going to get below 20°C toda.y"  
-`between 10°C and 20°C` say "it might get a little bit chilly."  
-`between 0°C and 10°C` say "That's cold."  
-`< 0°C` say "Absolutely freezing!"
+- `Above 30°C` say "Wow. That's hot!"
+- `between 20°C and 30°C` say "it's not going to get below 20°C tomorrow"
+- `between 10°C and 20°C` say "it might get a little bit chilly tomorrow."
+- `between 0°C and 10°C` say "That's cold."
+- `< 0°C` say "Absolutely freezing!"
 
 Puntuation like `.`, `!`, `?` and `,` is important in the text to speech statments so the timing sounds "natural"
 
@@ -123,9 +141,9 @@ Puntuation like `.`, `!`, `?` and `,` is important in the text to speech statmen
 {% if low_temp > 30 %}
   Wow. That's hot!
 {% elif 20 < low_temp < 30 %}
-  it's not going to go below 20°C today.
+  it's not going to go below 20°C tomorrow.
 {% elif 10 < low_temp < 20 %}
-  it might get a little bit chilly.
+  it might get a little bit chilly tomorrow.
 {% elif 0 < low_temp < 10 %}
   That's cold.
 {% else %}
@@ -148,39 +166,30 @@ Outside, It's {{ current_condition }} and {{ current_temp }} degrees Celsius.
 {% set high_temp = weather[0].temperature %}
 {% set low_temp = weather[0].templow %}
 
-{% for entry in weather %}
-  {% if entry.temperature > high_temp %}
-    {% set high_temp = entry.temperature %}
-  {% endif %}
-  {% if entry.templow < low_temp %}
-    {% set low_temp = entry.templow %}
-  {% endif %}
-  {% if entry.condition == 'rainy'%}    
-    It looks like there's rain expected at around {{ entry.datetime.split('T')[1][:2] }} o'clock. You might want to take an umbrella if you're leaving the house.
-  {% endif %}
-{% endfor %}
+{% set forecast_condition = weather[0].condition %}
 
 {% if high_temp > 30 %}
-  It's going to be a hot one
+  It's going to be a hot one tomorrow
 {% elif 20 < high_temp < 30 %}
-  It should be a warm day
+  It should be a warm day tomorrow
 {% elif 15 < high_temp < 20 %}
-  It's going to be a pretty mild temperature today
+  It's going to be a pretty mild temperature tomorrow
 {% elif 10 < high_temp < 15 %}
-  It seems like it'll be a bit chilly today
+  It seems like it'll be a bit chilly tomorrow
 {% elif 0 < high_temp < 10 %}
-  It's going to be a cold day
+  It's going to be a cold day tomorrow
 {% else %}
-  It's going to be freezing today
+  It's going to be freezing tomorrow
 {% endif %}
 
-The forecast high is {{ high_temp }} °C.
+The forecast high for tomorrow is {{ high_temp }} °C.
+{{ forecast_condition }} With a Low of {{ low_temp }} °C .
 
-With a Low of {{ low_temp }} °C .
+
 {% if low_temp > 30 %}
   Wow. That's hot!
 {% elif 20 < low_temp < 30 %}
-  it's not going to go below 20 degrees today.
+  Pretty warm
 {% elif 10 < low_temp < 20 %}
   it might get a little bit chilly.
 {% elif 0 < low_temp < 10 %}
@@ -188,4 +197,60 @@ With a Low of {{ low_temp }} °C .
 {% else %}
   Absolutely freezing!
 {% endif %}
+```
+
+## Put it in a Script
+```yaml
+alias: Announce Weather Details
+  sequence:
+  - service: notify.alexa_media
+    data:
+      message: >_
+      {% set current_temp = state_attr ('weather.home','temperature') | float %}
+      {% set current_condition = states('weather.home') %}
+
+      {% if current_condition == 'partlycloudy' %}
+        {% set current_condition = 'Partly Cloudy' %}
+      {% endif %}
+
+      Outside, It's {{ current_condition }} and {{ current_temp }} degrees Celsius.
+
+      {% set weather = state_attr('weather.home', 'forecast') %}
+      {% set high_temp = weather[0].temperature %}
+      {% set low_temp = weather[0].templow %}
+
+      {% set forecast_condition = weather[0].condition %}
+
+      {% if high_temp > 30 %}
+        It's going to be a hot one tomorrow
+      {% elif 20 < high_temp < 30 %}
+        It should be a warm day tomorrow
+      {% elif 15 < high_temp < 20 %}
+        It's going to be a pretty mild temperature tomorrow
+      {% elif 10 < high_temp < 15 %}
+        It seems like it'll be a bit chilly tomorrow
+      {% elif 0 < high_temp < 10 %}
+        It's going to be a cold day tomorrow
+      {% else %}
+        It's going to be freezing tomorrow
+      {% endif %}
+
+      The forecast high for tomorrow is {{ high_temp }} °C.
+      {{ forecast_condition }} With a Low of {{ low_temp }} °C .
+
+
+      {% if low_temp > 30 %}
+        Wow. That's hot!
+      {% elif 20 < low_temp < 30 %}
+        Pretty warm
+      {% elif 10 < low_temp < 20 %}
+        it might get a little bit chilly.
+      {% elif 0 < low_temp < 10 %}
+        That's cold.
+      {% else %}
+        Absolutely freezing!
+      {% endif %}
+
+    - media_player.dining_room_echo_plus
+  mode: single
 ```
