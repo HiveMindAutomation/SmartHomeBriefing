@@ -1,5 +1,7 @@
 # Notes for creating a morning briefing from my smart home.
 
+[Back to README](./README.md)  
+
 ## Determining the data points that we want
 
 __Current Temperature:__ `{{ state_attr ('weather.home','temperature') }}`  

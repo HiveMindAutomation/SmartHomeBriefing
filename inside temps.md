@@ -28,23 +28,19 @@ and {{ states('sensor.master_bedroom_purifier_temperature') }} °C in the Master
 
 ### But there's a better way!
 We're going to crate an Array of Dictionaries, and iterate through the array.  
+The Dictionary Key is the `entity_id` of the temperature sensor in Home Assistant.  
+The Dictionary Value is the Name of the room we want our TTS engine to say.  
+For the TTS to sound more 'natural' I've added ", and" to the `name` of the second last item in the array  
 
 ```jinja
 
-{% set inside_temps = {
-    # A List of Dictionaries
-    # The Dictionary Key is the `entity_id` of the temperature sensor in Home Assistant
-    # the Dictionary Value is the Name of the room we want our TTS engine to say.
-    # For the TTS to sound more 'natural' I've added ", and" to the second last item in the array
-    
+{% set inside_temps = { 
     'sensor.temperature_dining': 'Dining Room',
     'sensor.lounge_ac_inside_temperature': 'Lounge Room',
     'sensor.temperature_office': 'Office, and',
     'sensor.master_bedroom_purifier_temperature': 'Master Bedroom'
 
 } %}
-
-
 
 Inside it's currently 
 {% for sensor, room in inside_temps.items() %}
