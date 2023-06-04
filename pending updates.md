@@ -42,7 +42,7 @@ Let's try doing this with an Array instead
     # The Dictionary Key is the `entity_id` in Home Assistant
     # the Dictionary Value is what we want our Text to Speech engine to call it.
     
-    'update.home_assistant_operating_system_update': 'Home Assistant OS Update',
+    'update.home_assistant_operating_system_update': 'Home Assistant OS',
     'update.home_assistant_core_update': 'Home Assistant Core',
     'update.esphome_update': 'E S P Home',
 
@@ -50,7 +50,7 @@ Let's try doing this with an Array instead
 
 {% for entity, name in entities.items() %}
   {% if states(entity) == 'on' %}
-  There's a {{ name }} pending. 
+  There's a {{ name }} update pending. 
   The Installed version is {{ state_attr( entity, 'installed_version') }} 
   The Available version is {{ state_attr(entity, 'latest_version') }} 
   {% endif %}

@@ -47,3 +47,27 @@ Inside it's currently
     {{ states(sensor) }} °C in the {{ room }}
 {% endfor %}
 ```
+
+## And in a script:
+
+```yaml
+alias: Announce Inside Temperatures
+  sequence:
+  - service: notify.alexa_media
+    data:
+      message: >_
+    {% set inside_temps = { 
+        'sensor.temperature_dining': 'Dining Room',
+        'sensor.lounge_ac_inside_temperature': 'Lounge Room',
+        'sensor.temperature_office': 'Office, and',
+        'sensor.master_bedroom_purifier_temperature': 'Master Bedroom'
+
+    } %}
+
+    Inside it's currently 
+    {% for sensor, room in inside_temps.items() %}
+        {{ states(sensor) }} °C in the {{ room }}
+    {% endfor %}
+    - media_player.dining_room_echo_plus
+  mode: single
+```

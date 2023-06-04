@@ -162,3 +162,22 @@ Here is a Dad Joke.. {{ states('sensor.dad_joke_of_the_hour') }}
 
 And a random fact.. {{ states('sensor.random_fact') }}
 ```
+
+## Into a Script
+
+```yaml
+alias: Announce Wind Details
+  sequence:
+  - service: notify.alexa_media
+    data:
+      message: >_
+      The {{ state_attr( 'sensor.quote_sensor', 'category' ) }} Quote of the day is by {{ state_attr( 'sensor.quote_sensor', 'author' ) }}. 
+      They said. {{ states('sensor.quote_sensor') }}
+
+      Here is a Dad Joke.. {{ states('sensor.dad_joke_of_the_hour') }}
+
+      And a random fact.. {{ states('sensor.random_fact') }}
+    - media_player.dining_room_echo_plus
+  mode: single
+```
+
