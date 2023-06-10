@@ -3,7 +3,7 @@
 ## Preface
 
 This serves as supplemental information for the Hive Mind Automation YouTube Video  
-[Create a Daily Briefing with Home Assistant]()
+[Create a Daily Briefing with Home Assistant](https://youtu.be/A_m-ik4fRzo)
 
 It contains code snippets of Jinja2 Templates used in the announcements, and I've added a `scripts.yaml` file so you can see how I use it in my setup. 
 
